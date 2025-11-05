@@ -1,0 +1,19 @@
+import {createStore, applyMiddleware, compose} from "redux";
+import rootReducer from "./reducers/rootReducer";
+import {thunk} from "redux-thunk";
+import {logger} from "redux-logger";
+
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk, logger)));
+
+export type AppDispatch = typeof store.dispatch;
+export type AppStore = typeof store;
+
+export default store;
